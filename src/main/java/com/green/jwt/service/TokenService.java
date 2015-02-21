@@ -155,7 +155,7 @@ public class TokenService {
 	@PostConstruct
 	public void init(){
 		jwtSigner = new JWTSigner(secret);
-		jwtVerifier = new JWTVerifier(secret);
+		jwtVerifier = new JWTVerifier(secret,aud,iss);
 	}
 
 	
