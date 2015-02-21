@@ -14,7 +14,7 @@ import com.green.jwt.service.exception.UserNotFoundException;
 @Service
 public class LoginService {
 
-	private static final Map<String, User> USER_DB = new HashMap<String, User>();
+	public static final Map<String, User> USER_DB = new HashMap<String, User>();
 	
 	@Autowired private TokenService tokenService;
 	
