@@ -73,16 +73,16 @@ public class TokenServiceTest {
 		String token = tokenService.createToken(subject);
 		
 		//when token is verified
-		Map<String, Object> cliams = tokenService.verify(token);
+		Map<String, Object> claims = tokenService.verify(token);
 		
 		//then it should decrypt the token and return claims in a map
-		Assert.assertEquals("James", cliams.get("sub").toString());
-		Assert.assertEquals("hypersocket", cliams.get("iss").toString());
-		Assert.assertEquals("hypersocket.com", cliams.get("aud").toString());
-		Assert.assertEquals(Role.USER.name(), cliams.get("role"));
-		Assert.assertNotNull(cliams.get("jti"));
-		Assert.assertNotNull(cliams.get("exp"));
-		Assert.assertNotNull(cliams.get("nbf"));
+		Assert.assertEquals("James", claims.get("sub").toString());
+		Assert.assertEquals("hypersocket", claims.get("iss").toString());
+		Assert.assertEquals("hypersocket.com", claims.get("aud").toString());
+		Assert.assertEquals(Role.USER.name(), claims.get("role"));
+		Assert.assertNotNull(claims.get("jti"));
+		Assert.assertNotNull(claims.get("exp"));
+		Assert.assertNotNull(claims.get("nbf"));
 	}
 	
 	
