@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.auth0.jwt.JWTVerifyException;
 import com.green.jwt.model.Role;
 import com.green.jwt.model.User;
-import com.green.jwt.service.TokenService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -77,8 +76,8 @@ public class TokenServiceTest {
 		
 		//then it should decrypt the token and return claims in a map
 		Assert.assertEquals("James", claims.get("sub").toString());
-		Assert.assertEquals("hypersocket", claims.get("iss").toString());
-		Assert.assertEquals("hypersocket.com", claims.get("aud").toString());
+		Assert.assertEquals("green", claims.get("iss").toString());
+		Assert.assertEquals("green.com", claims.get("aud").toString());
 		Assert.assertEquals(Role.USER.name(), claims.get("role"));
 		Assert.assertNotNull(claims.get("jti"));
 		Assert.assertNotNull(claims.get("exp"));
