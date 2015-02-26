@@ -21,6 +21,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.auth0.jwt.JWTVerifyException;
 import com.green.jwt.service.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -32,15 +33,14 @@ public class SecurityFilter implements Filter{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityFilter.class);
 	
-	private TokenService tokenService;
+    @Autowired private TokenService tokenService;
 	
 	private AuthenticationFilter authenticationFilter;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		tokenService = WebApplicationContextUtils.
-		  getRequiredWebApplicationContext(filterConfig.getServletContext()).
-		  getBean(TokenService.class);
+		WebApplicationContextUtils.
+		  getRequiredWebApplicationContext(filterConfig.getServletContext()).getAutowireCapableBeanFactory().autowireBean(this);
 		
 		authenticationFilter = new AuthenticationFilter();
 		authenticationFilter.init(filterConfig);
