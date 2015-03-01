@@ -50,7 +50,7 @@ public class SecurityUrlFilter implements Filter{
 	 * @return
 	 */
 	private boolean loginURL(HttpServletRequest httpServletRequest) {
-		return httpServletRequest.getRequestURI().equals("/login") && "POST".equalsIgnoreCase(httpServletRequest.getMethod());
+		return httpServletRequest.getRequestURI().contains("/login") && "POST".equalsIgnoreCase(httpServletRequest.getMethod());
 	}
 
 	@Override
