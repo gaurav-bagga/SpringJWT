@@ -6,6 +6,7 @@ import com.green.jwt.model.Role;
 import com.green.jwt.model.User;
 
 /**
+ * Keeps the JWT cliams in thread local variable, so that its available to all execution thread methods.
  * 
  * @author gaurav.bagga
  *
@@ -15,6 +16,7 @@ public final class SecurityContext {
 	private static final ThreadLocal<Subject> context = new ThreadLocal<SecurityContext.Subject>();
 	
 	/**
+	 * Entity object populated from JWT claims map.
 	 * 
 	 * @author gaurav.bagga
 	 *

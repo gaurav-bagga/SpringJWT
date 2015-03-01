@@ -21,10 +21,14 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.auth0.jwt.JWTVerifyException;
 import com.green.jwt.service.TokenService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
+ * Series of filter at position 2 first is {@link SecurityUrlFilter} then is {@link SecurityFilter}
+ * {@link SecurityUrlFilter} blocks all the requests except for login,
+ * {@link SecurityFilter} checks for presence of JWT token extracts claims from it and sets up context available as thread local
  * 
  * @author gaurav.bagga
  *
@@ -35,17 +39,16 @@ public class SecurityFilter implements Filter{
 	
     @Autowired private TokenService tokenService;
 	
-	private AuthenticationFilter authenticationFilter;
-
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		WebApplicationContextUtils.
 		  getRequiredWebApplicationContext(filterConfig.getServletContext()).getAutowireCapableBeanFactory().autowireBean(this);
 		
-		authenticationFilter = new AuthenticationFilter();
-		authenticationFilter.init(filterConfig);
 	}
 
+	/**
+	 * Checks for the presence of JWT token, if present and valid it allows to proceed.
+	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -61,7 +64,7 @@ public class SecurityFilter implements Filter{
 				return;
 			}
 			analyseToken(token);
-			authenticationFilter.doFilter(request, response, chain);
+			chain.doFilter(request, response);
 		}catch(Exception e){
 			LOGGER.error("Problem in analysing token.",e);
 			httpServletResponse.setHeader(SecurityConstant.JWT_SECURTY_TOKEN_HTTP_ERROR_HEADER,"Error in processing : " + e.getMessage());
@@ -75,6 +78,17 @@ public class SecurityFilter implements Filter{
 	@Override
 	public void destroy() {}
 
+	/**
+	 * Verifies the token and puts the claims map into thread local SecurityContext.
+	 * 
+	 * @param token
+	 * @throws InvalidKeyException
+	 * @throws NoSuchAlgorithmException
+	 * @throws IllegalStateException
+	 * @throws SignatureException
+	 * @throws IOException
+	 * @throws JWTVerifyException
+	 */
 	private void analyseToken(String token) throws InvalidKeyException, NoSuchAlgorithmException, IllegalStateException, SignatureException, IOException, JWTVerifyException{
 		Map<String, Object> claims = tokenService.verify(token);
 		SecurityContext.setContextSubject(token,claims);

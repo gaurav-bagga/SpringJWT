@@ -27,6 +27,12 @@ import com.auth0.jwt.JWTVerifyException;
 import com.green.jwt.service.TokenService;
 
 
+/**
+ * This class is responsible for testing {@link SecurityFilter}
+ * 
+ * @author gaurav.bagga
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class SecurityFilterTest {
 	
@@ -34,7 +40,6 @@ public class SecurityFilterTest {
 	@Mock private HttpServletResponse response;
 	@Mock private FilterChain filterChain;
 	@Mock private TokenService tokenService;
-	@Mock private AuthenticationFilter authenticationFilter; 
 	
 	@InjectMocks private SecurityFilter securityFilter;
 	
@@ -51,7 +56,7 @@ public class SecurityFilterTest {
 		verify(request).getHeader(SecurityConstant.JWT_SECURTY_TOKEN_HTTP_HEADER);
 		
 		//and authentication filter should not be called
-		verify(authenticationFilter,never()).doFilter(request, response, filterChain);
+		verify(filterChain,never()).doFilter(request, response);
 		
 	}
 	
@@ -69,7 +74,7 @@ public class SecurityFilterTest {
 		verify(response).setHeader(SecurityConstant.JWT_SECURTY_TOKEN_HTTP_ERROR_HEADER, anyString());
 		
 		//and authentication filter should not be called
-		verify(authenticationFilter,never()).doFilter(request, response, filterChain);
+		verify(filterChain,never()).doFilter(request, response);
 		
 	}
 	
@@ -88,7 +93,7 @@ public class SecurityFilterTest {
 		securityFilter.doFilter(request, response, filterChain);
 		
 		//then authentication filter is called
-		verify(authenticationFilter).doFilter(request, response, filterChain);
+		verify(filterChain).doFilter(request, response);
 		//and unauthorized status is not set
 		verify(response,never()).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	}

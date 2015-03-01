@@ -10,6 +10,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Series of filter at position 2 first is {@link SecurityUrlFilter} then is {@link SecurityFilter}
+ * {@link SecurityUrlFilter} blocks all the requests except for login,
+ * {@link SecurityFilter} checks for presence of JWT token extracts claims from it and sets up context available as thread local
+ * 
+ * @author gaurav.bagga
+ *
+ */
 public class SecurityUrlFilter implements Filter{
 	
 	private SecurityFilter securityFilter;
@@ -20,6 +28,9 @@ public class SecurityUrlFilter implements Filter{
 		this.securityFilter.init(filterConfig);
 	}
 
+	/**
+	 * Checks request is for login and method is POST, if yes it does not checks for JWT token.
+	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -32,6 +43,12 @@ public class SecurityUrlFilter implements Filter{
 		
 	}
 
+	/**
+	 * Url is for login and method is POST
+	 * 
+	 * @param httpServletRequest
+	 * @return
+	 */
 	private boolean loginURL(HttpServletRequest httpServletRequest) {
 		return httpServletRequest.getRequestURI().equals("/login") && "POST".equalsIgnoreCase(httpServletRequest.getMethod());
 	}

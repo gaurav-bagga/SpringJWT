@@ -3,6 +3,12 @@ package com.green.jwt.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Entity model representing User in the system.
+ * 
+ * @author gaurav.bagga
+ *
+ */
 public class User {
 	
 	public final String name;

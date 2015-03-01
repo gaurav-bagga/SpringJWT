@@ -11,6 +11,12 @@ import com.green.jwt.model.User;
 import com.green.jwt.service.exception.UserAuthenticationException;
 import com.green.jwt.service.exception.UserNotFoundException;
 
+/**
+ * Responsible for authenticating user into system and generating JWT token.
+ * 
+ * @author gaurav.bagga
+ *
+ */
 @Service
 public class LoginService {
 
@@ -23,6 +29,14 @@ public class LoginService {
 		USER_DB.put("steve", new User("steve", "pass", Role.ADMIN));
 	}
 	
+	/**
+	 * Authenticates the user and fills in the claims map and generates JWT.
+	 * 
+	 * @param user
+	 * @return JWT token if user is found in the system and can be authenticated.
+	 * @throws UserNotFoundException if user is not present in the system.
+	 * @throws UserAuthenticationException if user cannot be authenticated.
+	 */
 	public String login(User user){
 		User userFromDb = USER_DB.get(user.name);
 		if(userFromDb == null){

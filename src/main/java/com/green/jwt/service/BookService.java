@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.green.jwt.model.Book;
 
 /**
- * Bok service helps in CRUD operation on Book entity
+ * Book service helps in CRUD operation on Book entity
  * 
  * @author gaurav.bagga
  *

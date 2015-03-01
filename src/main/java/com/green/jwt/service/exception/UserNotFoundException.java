@@ -1,5 +1,11 @@
 package com.green.jwt.service.exception;
 
+/**
+ * Exception to be throws when User cannot be found in the system.
+ * 
+ * @author gaurav.bagga
+ *
+ */
 public class UserNotFoundException extends RuntimeException{
 
 	public UserNotFoundException(String name) {
