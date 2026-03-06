@@ -185,7 +185,7 @@ public class TokenService {
 	
 	
 	/**
-	 * It takes a JWT encrypted token, decrypts it and returns a Map of cliams associated with the token
+	 * It takes a JWT signed token, and returns a Map of cliams associated with the token
 	 * 
 	 * @param token JWT
 	 * @return Map of claims decrypted from token
